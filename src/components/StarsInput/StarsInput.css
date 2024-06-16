@@ -1,0 +1,15 @@
+.StarsInput {
+  margin-top: 8px;
+  border: none;
+  display: flex;
+  align-items: center;
+}
+.StarsInput svg {
+  cursor: pointer;
+}
+.StarsInput .rating {
+  font-size: 22px;
+  margin-left: 8px;
+  transform: translateY(-2px);
+  color: var(--muted);
+}

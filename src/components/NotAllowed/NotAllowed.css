@@ -1,0 +1,22 @@
+.NotAllowed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
+}
+
+.NotAllowed h2 {
+  font-weight: 800;
+  font-size: 24px;
+  text-align: center;
+}
+.NotAllowed span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: solid 1px var(--dark-blue);
+  padding: 5px 10px;
+  margin-top: 10px;
+  color: var(--muted);
+}

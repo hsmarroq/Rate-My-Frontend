@@ -1,0 +1,42 @@
+.PostDetail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 50px;
+}
+.PostDetail .error {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+  color: var(--bright-red);
+}
+.PostDetail .actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 20px auto;
+  width: 100%;
+  max-width: 800px;
+
+  background: var(--pure-white);
+  border: solid 1px var(--border-color);
+  border-radius: 4px;
+  padding: 15px 20px;
+}
+
+.PostDetail .edit-post {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 20px;
+}
+.PostDetail .edit-post textarea {
+  resize: none;
+  flex: 1;
+  height: 100px;
+}
