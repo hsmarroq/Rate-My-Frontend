@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import axios from 'axios';
+import apiClient from '../../services/apiClient';
 import Navbar from '../Navbar/Navbar';
 import Home from '../Home/Home';
 import Register from '../Register/Register';
@@ -15,37 +15,33 @@ export default function App() {
   const [error, setError] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
 
+  const fetchPosts = async () => {
+    setIsFetching(true);
+
+    const { data, error } = await apiClient.listPosts();
+
+    if (data) setPosts(data.posts);
+    if (error) setError(error);
+
+    setIsFetching(false);
+  };
+
   useEffect(() => {
-    const fetchPosts = async () => {
-      setIsFetching(true);
-      const token = localStorage.getItem('authToken'); // Retrieve the token from local storage
+    fetchPosts();
+  }, []);
 
-      if (!token) {
-        setError('No authentication token found');
-        setIsFetching(false);
-        return;
-      }
-
-      try {
-        const res = await axios.get('http://localhost:3001/posts', {
-          headers: {
-            Authorization: `Bearer ${token}`, // Include the token in the headers
-          },
-        });
-        if (res?.data?.posts) {
-          setError(null);
-          setPosts(res.data.posts);
-        }
-      } catch (err) {
-        console.log(err);
-        const message = err?.response?.data?.error?.message;
-        setError(message ?? String(err));
-      } finally {
-        setIsFetching(false);
-      }
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data, error } = await apiClient.fetchUserFromToken();
+      if (data) setUser(data.user);
+      if (error) setError(error);
     };
 
-    fetchPosts();
+    const token = apiClient.getToken();
+    if (token) {
+      apiClient.setToken(token); // Ensure token is set in apiClient
+      fetchUser();
+    }
   }, []);
 
   const addPost = (newPost) => {
@@ -64,10 +60,17 @@ export default function App() {
     });
   };
 
+  const handleLogout = async () => {
+    await apiClient.logoutUser();
+    setUser({});
+    fetchPosts();
+    setError(null);
+  };
+
   return (
     <div className='App'>
       <BrowserRouter>
-        <Navbar user={user} setUser={setUser} />
+        <Navbar user={user} setUser={setUser} handleLogout={handleLogout} />
         <Routes>
           <Route
             path='/'

@@ -1,45 +1,51 @@
-import { Link } from "react-router-dom"
-import Twitter from "../Icons/Twitter"
-import Instagram from "../Icons/Instagram"
-import Facebook from "../Icons/Facebook"
-import "./Navbar.css"
+import { Link } from 'react-router-dom';
+import Twitter from '../Icons/Twitter';
+import apiClient from '../../services/apiClient';
+import Instagram from '../Icons/Instagram';
+import Facebook from '../Icons/Facebook';
+import './Navbar.css';
 
-export default function Navbar({ user }) {
+export default function Navbar({ user, setUser, handleLogout }) {
   return (
-    <nav className="Navbar">
-      <div className="content">
-        <div className="logo">
-          <Link to="/">
+    <nav className='Navbar'>
+      <div className='content'>
+        <div className='logo'>
+          <Link to='/'>
             <h1>RATE MY SETUP</h1>
           </Link>
         </div>
 
-        <div className="socials">
-          <Twitter fill="var(--pure-white)" />
-          <Instagram fill="var(--pure-white)" />
-          <Facebook fill="var(--pure-white)" />
+        <div className='socials'>
+          <Twitter fill='var(--pure-white)' />
+          <Instagram fill='var(--pure-white)' />
+          <Facebook fill='var(--pure-white)' />
         </div>
 
-        <ul className="links">
+        <ul className='links'>
           <li>
-            <Link to="/">Home</Link>
+            <Link to='/'>Home</Link>
           </li>
           {user?.email ? (
-            <li>
-              <span>{user.email}</span>
-            </li>
+            <>
+              <li>
+                <span>{user.email}</span>
+              </li>
+              <li>
+                <span onClick={handleLogout}>Logout</span>
+              </li>
+            </>
           ) : (
             <>
               <li>
-                <Link to="/login">Login</Link>
+                <Link to='/login'>Login</Link>
               </li>
               <li>
-                <Link to="/register">Sign Up</Link>
+                <Link to='/register'>Sign Up</Link>
               </li>
             </>
           )}
         </ul>
       </div>
     </nav>
-  )
+  );
 }
